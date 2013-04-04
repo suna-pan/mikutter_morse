@@ -69,11 +69,11 @@ Plugin.create(:mikutter_morse) do
 
     def toMorse
         buf =  Gtk::PostBox.list.first.widget_post.buffer
-        buf.text = $morse.encode(buf.text)
+        buf.text = @morse.encode(buf.text)
     end
 
     def toString(text)
-        return $morse.decode(text) 
+        return @morse.decode(text) 
     end
 
     def isMorse(text)
@@ -85,7 +85,7 @@ Plugin.create(:mikutter_morse) do
     end
 
     on_boot do
-        $morse = Morse.new
+        @morse = Morse.new
     end
 
     filter_show_filter do |msgs|
