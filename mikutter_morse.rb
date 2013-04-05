@@ -38,7 +38,7 @@ class Morse
                 morse << w
             end
         end
-        return morse.chop
+        return morse.strip
     end
 
     #引数(モールス) => 文字列
