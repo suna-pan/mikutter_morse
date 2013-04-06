@@ -69,8 +69,11 @@ Plugin.create(:mikutter_morse) do
 
     def toMorse
         buf =  Gtk::PostBox.list.first.widget_post.buffer
-        /(^@.*\s)(.*)/ =~ buf.text
-        buf.text = $1 + @morse.encode($2)
+        if /(^@.*\s)(.*)/ =~ buf.text
+            buf.text = $1 + @morse.encode($2)
+        else
+            buf.text =  @morse.encode(buf.text)
+        end
     end
 
     def toString(text)
