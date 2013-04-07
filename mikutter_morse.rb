@@ -63,12 +63,12 @@ Plugin.create(:mikutter_morse) do
             condition: Plugin::Command[:Editable],
             visible: true,
             role: :postbox
-    ) do
-        toMorse
+    ) do |opt|
+        toMorse(opt)
     end
 
-    def toMorse
-        buf =  Gtk::PostBox.list.first.widget_post.buffer
+    def toMorse(opt)
+        buf =  Plugin.create(:gtk).widgetof(opt.widget).widget_post.buffer
         id,str = splitId(buf.text)
         buf.text =  id + @morse.encode(str)
     end
