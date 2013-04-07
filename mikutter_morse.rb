@@ -69,33 +69,31 @@ Plugin.create(:mikutter_morse) do
 
     def toMorse
         buf =  Gtk::PostBox.list.first.widget_post.buffer
-        if /(^@.*?\s)(.*)/ =~ buf.text
-            buf.text = $1 + @morse.encode($2)
-        else
-            buf.text =  @morse.encode(buf.text)
-        end
+        id,str = splitId(buf.text)
+        buf.text =  id + @morse.encode(str)
     end
 
     def toString(text)
-        if /(^@.*?\s)(.*)/ =~ text
-            str = $1 + @morse.decode($2)
-        else
-            str =  @morse.decode(text)
-        end
+        id,str = splitId(text)
+        str = id + @morse.decode(str)
         return str 
     end
 
     def isMorse(text)
-        if /(^@.*?\s)(.*)/ =~ text
-            ary = $2.split(//)
-        else
-            ary = text.split(//)
-        end
-
+        id,str = splitId(text)
+        ary = str.split(//)
         ary.each do |c|
             return false unless /[\s・－]/ =~ c
         end
         return true
+    end
+
+    def splitId(text)
+        if /(^@.*?\s)(.*)/ =~ text
+            return $1,$2
+        else
+            return '',text
+        end
     end
 
     on_boot do
