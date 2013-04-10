@@ -24,7 +24,7 @@ class Morse
             '1' => '・－－－－', '2' => '・・－－－', '3' => '・・・－－', 
             '4' => '・・・・－', '5' => '・・・・・', '6' => '－・・・・', 
             '7' => '－－・・・', '8' => '－－－・・', '9' => '－－－－・', 
-            '0' => '－－－－－'}
+            '0' => '－－－－－', '?' => '・・－－・・', '!' => '－・－・－－'}
     end
 
     #引数(文字列) => モールス
@@ -81,11 +81,8 @@ Plugin.create(:mikutter_morse) do
 
     def isMorse(text)
         id,str = splitId(text)
-        ary = str.split(//)
-        ary.each do |c|
-            return false unless /[\s・－]/ =~ c
-        end
-        return true
+        return true if /^[\s・－]+$/ =~ str
+        return false
     end
 
     def splitId(text)
