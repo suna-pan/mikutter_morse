@@ -81,8 +81,7 @@ Plugin.create(:mikutter_morse) do
 
     def isMorse(text)
         id,str = splitId(text)
-        return true if /^[\s・－]+$/ =~ str
-        return false
+        return /^[\s・－]+$/ =~ str ? true : false
     end
 
     def splitId(text)
