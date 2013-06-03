@@ -69,26 +69,25 @@ Plugin.create(:mikutter_morse) do
 
     def toMorse(opt)
         buf =  Plugin.create(:gtk).widgetof(opt.widget).widget_post.buffer
-        id,str = splitId(buf.text)
-        buf.text =  id + @morse.encode(str)
+        str = splitId(buf.text)
+        buf.text =  str[:id] + @morse.encode(str[:text])
     end
 
     def toString(text)
-        id,str = splitId(text)
-        str = id + @morse.decode(str)
-        return str 
+        str = splitId(text)
+        return str[:id] + @morse.decode(str[:text])
     end
 
     def isMorse(text)
-        id,str = splitId(text)
-        return /^[\s・－]+$/ =~ str ? true : false
+        str = splitId(text)
+        return /^[\s・－]+$/ =~ str[:text] ? true : false
     end
 
     def splitId(text)
         if /(^@.*?\s)(.*)/ =~ text
-            return $1,$2
+            return {:id => $1, :text => $2}
         else
-            return '',text
+            return {:id => '', :text => text}
         end
     end
 
